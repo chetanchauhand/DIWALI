@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Diwali – Festival of Lights</title>
+<meta name="description" content="A personalised, interactive Diwali celebration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="bgParticles" aria-hidden="true"></canvas>
+
+<!-- ========== WELCOME ========== -->
+<section id="welcome" class="welcome">
+  <div class="rangoli" aria-hidden="true"></div>
+  <div class="diyas" aria-hidden="true">
+    <span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span>
+  </div>
+  <div class="welcome-card">
+    <p class="eyebrow">शुभ दीपावली</p>
+    <h1 class="glow-title">Happy Diwali</h1>
+    <p class="sub">May the festival of lights fill your home with joy.</p>
+    <form id="nameForm" novalidate>
+      <label for="visitorName" class="sr-only">Your name</label>
+      <input id="visitorName" type="text" maxlength="30" placeholder="Enter your name" autocomplete="given-name">
+      <p id="nameError" class="error" role="alert" hidden>Please enter your name to open your gift.</p>
+      <button type="submit" class="btn">🪔 Open Your Gift</button>
+    </form>
+  </div>
+</section>
+
+<!-- ========== MAIN SITE ========== -->
+<div id="app" class="app" hidden>
+  <header class="topbar">
+    <a class="brand" href="#" data-tab="home">🪔 Deepavali</a>
+    <button id="menuBtn" class="menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">☰</button>
+    <nav id="nav" class="nav" aria-label="Main">
+      <button data-tab="home" class="active">Home</button>
+      <button data-tab="mithai">Mithai Mahal</button>
+      <button data-tab="ramayana">Ramayana</button>
+      <button data-tab="fireworks">Firecracker Zone</button>
+      <button data-tab="traditions">Diwali Traditions</button>
+      <button data-tab="wishes">Wishes</button>
+    </nav>
+    <div class="player" aria-label="Music player">
+      <button id="playBtn" class="icon-btn" aria-label="Play music">▶</button>
+      <input id="volume" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Volume">
+    </div>
+  </header>
+  <p id="audioNote" class="audio-note" hidden></p>
+
+  <main>
+    <!-- HOME -->
+    <section id="tab-home" class="tab active">
+      <div class="hero">
+        <h2 class="glow-title">Happy Diwali, <span class="vname">Friend</span>!</h2>
+        <p>Deepavali, the festival of lights, celebrates the triumph of light over darkness, knowledge over ignorance and good over evil.</p>
+      </div>
+      <div class="carousel" id="carousel" aria-roledescription="carousel">
+        <div class="slides" id="slides"></div>
+        <button class="car-btn prev" id="prevSlide" aria-label="Previous slide">‹</button>
+        <button class="car-btn next" id="nextSlide" aria-label="Next slide">›</button>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="intro">
+        <h3>The Festival of Lights</h3>
+        <p>Celebrated across India and by communities worldwide, Diwali falls on the new-moon night of the Hindu month of Kartika (October–November). Homes are cleaned and lit with diyas, families gather for Lakshmi Puja, sweets are shared and the sky glows with joy. For many it marks Lord Rama's return to Ayodhya; others honour Goddess Lakshmi, Krishna, or, in Jain and Sikh traditions, their own sacred remembrances.</p>
+      </div>
+      <div class="grid cards" id="homeLinks"></div>
+    </section>
+
+    <!-- MITHAI -->
+    <section id="tab-mithai" class="tab">
+      <h2 class="section-title">Mithai Mahal</h2>
+      <p class="lead">Twelve beloved sweets of India. Tap any sweet to learn more.</p>
+      <input id="sweetSearch" class="search" type="search" placeholder="Search by name, origin or ingredient…" aria-label="Search sweets">
+      <div id="sweetGrid" class="grid cards"></div>
+      <p id="noSweets" class="lead" hidden>No sweets match your search.</p>
+    </section>
+
+    <!-- RAMAYANA -->
+    <section id="tab-ramayana" class="tab">
+      <h2 class="section-title">The Ramayana</h2>
+      <p class="lead">The traditional story behind Diwali, as told in the epic attributed to sage Valmiki. Beliefs and retellings vary across regions and communities.</p>
+      <div class="progress"><div id="chProgress"></div></div>
+      <div class="chapter-nav" id="chNav"></div>
+      <article class="chapter" id="chapter" aria-live="polite">
+        <img id="chImg" alt="">
+        <div>
+          <p class="eyebrow" id="chCount"></p>
+          <h3 id="chTitle"></h3>
+          <p id="chEn"></p>
+          <p id="chHi" class="hindi" lang="hi"></p>
+        </div>
+      </article>
+      <div class="row-center">
+        <button class="btn ghost" id="chPrev">← Previous</button>
+        <button class="btn" id="chNext">Next →</button>
+      </div>
+      <h3 class="section-title sm">Ayodhya Deepotsav Gallery</h3>
+      <p class="lead">Every year the city of Ayodhya lights lakhs of diyas along the Saryu river.</p>
+      <div class="grid gallery" id="deepGallery"></div>
+    </section>
+
+    <!-- FIREWORKS -->
+    <section id="tab-fireworks" class="tab">
+      <h2 class="section-title">Firecracker Zone</h2>
+      <p class="lead">A safe, digital celebration. Press Start, then tap the sky as many times as you can in 30 seconds.</p>
+      <div class="hud">
+        <span>Score: <b id="score">0</b></span>
+        <span>Time: <b id="time">30</b>s</span>
+        <span>Best: <b id="best">0</b></span>
+        <button id="soundBtn" class="btn ghost small" aria-pressed="false">🔇 Sound off</button>
+      </div>
+      <div class="arena" id="arena">
+        <canvas id="fwCanvas"></canvas>
+        <div class="arena-msg" id="arenaMsg">
+          <p id="arenaText">Ready to light up the sky?</p>
+          <button class="btn" id="startBtn">Start Game</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADITIONS -->
+    <section id="tab-traditions" class="tab">
+      <h2 class="section-title">Diwali Traditions</h2>
+      <div class="grid cards" id="traditionGrid"></div>
+    </section>
+
+    <!-- WISHES -->
+    <section id="tab-wishes" class="tab">
+      <h2 class="section-title">Your Diwali Wishes</h2>
+      <div class="wish-card">
+        <p class="eyebrow">शुभ दीपावली</p>
+        <h3>Happy Diwali, <span class="vname">Friend</span>!</h3>
+        <p>May the glow of a thousand diyas bring you prosperity, good health and endless happiness. May Goddess Lakshmi bless your home, and may every dark corner be filled with light.</p>
+      </div>
+      <label for="wishText" class="lead">Write your own message to share:</label>
+      <textarea id="wishText" rows="5" maxlength="400"></textarea>
+      <div class="row-center">
+        <button class="btn" id="copyBtn">📋 Copy Message</button>
+        <button class="btn ghost" id="shareBtn">📤 Share</button>
+      </div>
+      <p id="wishStatus" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="footer">🪔 Made with light &amp; love · Shubh Deepavali 🪔<br><small>Sweet photos: Wikipedia / Wikimedia Commons contributors (open licences)</small></footer>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-box">
+    <button id="modalClose" class="modal-close" aria-label="Close">✕</button>
+    <img id="mImg" alt="">
+    <div class="modal-body">
+      <h3 id="mTitle"></h3>
+      <p class="eyebrow" id="mOrigin"></p>
+      <p id="mDesc"></p>
+      <p id="mMore" class="more"></p>
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/audio/diwali-music.mp3" type="audio/mpeg">
+</audio>
+<script src="script.js"></script>
+</body>
+</html>
